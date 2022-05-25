@@ -2,22 +2,24 @@
 #include "StormLib.h"
 
 namespace Storm {
-	Archive::Archive(std::string name, DWORD priority, DWORD flags): owner(true) {
-		StormOpenArchive(name.c_str(), priority, flags, &m_handle);
-	}
-
-	Archive::Archive(HANDLE handle): m_handle(handle) {
-
-	}
-
 	Archive::Archive() {
 
 	}
 
 	Archive::~Archive() {
-		if (owner) {
+		if (m_owner) {
 			Close();
 		}
+	}
+
+	void Archive::Open(std::string name, DWORD priority, DWORD flags) {
+		if (StormOpenArchive(name.c_str(), priority, flags, &m_handle)) {
+			m_owner = true;
+		}
+	}
+
+	void Archive::Connect(HANDLE handle) {
+		m_handle = handle;
 	}
 
 	void Archive::Close() {
@@ -33,6 +35,23 @@ namespace Storm {
 
 		if (m_handle) {
 			StormGetArchiveName(m_handle, name, sizeof(name));
+		}
+
+		return name;
+	}
+
+	std::string GetArchiveName(std::string fileName) {
+		char name[MAX_PATH];
+		FillMemory(name, sizeof(name), 0);
+
+		HANDLE _handle;
+		if (StormOpenFile(fileName.c_str(), &_handle)) {
+			HANDLE _archive;
+			if (StormGetFileArchive(_handle, &_archive)) {
+				StormGetArchiveName(_archive, name, sizeof(name));
+			}
+
+			StormCloseFile(_handle);
 		}
 
 		return name;
