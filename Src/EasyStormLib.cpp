@@ -42,7 +42,7 @@ namespace Storm {
 		return name;
 	}
 
-	std::string GetArchiveName(std::string fileName) {
+	std::string Archive::GetArchiveName(std::string fileName) {
 		char name[MAX_PATH];
 		FillMemory(name, sizeof(name), 0);
 
