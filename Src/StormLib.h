@@ -13,3 +13,4 @@ auto StormOpenFileEx = (BOOL(WINAPI*)(HANDLE archive, LPCSTR filename, DWORD mod
 auto StormReadFile = (BOOL(WINAPI*)(HANDLE file, PVOID buffer, SIZE_T bumberofbytestoread, SIZE_T* read, LONG distancetomovehigh))(GetProcAddress(stormBase, (LPCSTR)269));
 auto StormGetArchiveName = (BOOL(WINAPI*)(HANDLE archive, LPSTR name, SIZE_T length))(GetProcAddress(stormBase, (LPCSTR)275));
 auto StormGetFileName = (BOOL(WINAPI*)(HANDLE file, LPSTR buffer, SIZE_T length))(GetProcAddress(stormBase, (LPCSTR)276));
+auto StormOpenFile = (BOOL(WINAPI*)(LPCSTR filename, HANDLE* file))(GetProcAddress(stormBase, (LPCSTR)267));

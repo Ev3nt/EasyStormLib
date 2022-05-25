@@ -10,6 +10,10 @@ namespace Storm {
 
 	}
 
+	Archive::Archive() {
+
+	}
+
 	Archive::~Archive() {
 		if (owner) {
 			Close();
@@ -37,21 +41,27 @@ namespace Storm {
 	std::string Archive::operator[](std::string name) {
 		std::string filedata;
 
+		HANDLE _handle = NULL;
+
 		if (m_handle) {
-			HANDLE _handle;
-			if (StormOpenFileEx(m_handle, name.c_str(), 0, &_handle)) {
-				SIZE_T high; // Idk how i can use it on x32, so maximum size limit is 4gb
-				SIZE_T size = StormGetFileSize(_handle, &high); 
+			StormOpenFileEx(m_handle, name.c_str(), 0, &_handle);
+		}
+		else {
+			StormOpenFile(name.c_str(), &_handle);
+		}
 
-				SIZE_T readed; // Useless shit, cause we have checked file size
-				char* buffer = new char[size];
-				FillMemory(buffer, size, 0);
-				StormReadFile(_handle, buffer, size, &readed, 0);
-				StormCloseFile(_handle);
+		if (_handle) {
+			SIZE_T high; // Idk how i can use it on x32, so maximum size limit is 4gb
+			SIZE_T size = StormGetFileSize(_handle, &high);
 
-				filedata.append(buffer, size);
-				delete[] buffer;
-			}
+			SIZE_T readed; // Useless shit, cause we have checked file size
+			char* buffer = new char[size];
+			FillMemory(buffer, size, 0);
+			StormReadFile(_handle, buffer, size, &readed, 0);
+			StormCloseFile(_handle);
+
+			filedata.append(buffer, size);
+			delete[] buffer;
 		}
 
 		return filedata;

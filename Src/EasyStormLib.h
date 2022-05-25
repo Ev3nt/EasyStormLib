@@ -8,6 +8,7 @@ namespace Storm {
 	public:
 		Archive(std::string name, DWORD priority = 13, DWORD flags = 0); // Open archive
 		Archive(HANDLE handle); // Connect to opened archive
+		Archive();
 		~Archive(); // It's calling close if we're owner of archive
 
 		void Close();
