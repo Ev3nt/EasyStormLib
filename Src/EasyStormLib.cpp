@@ -3,7 +3,8 @@
 
 namespace Storm {
 	Archive::Archive() {
-
+		m_handle = NULL;
+		m_owner = false;
 	}
 
 	Archive::~Archive() {
@@ -20,6 +21,7 @@ namespace Storm {
 
 	void Archive::Connect(HANDLE handle) {
 		m_handle = handle;
+		m_owner = false;
 	}
 
 	void Archive::Close() {
