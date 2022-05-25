@@ -24,11 +24,14 @@ namespace Storm {
 		m_owner = false;
 	}
 
-	void Archive::Close() {
-		if (m_handle) {
-			StormCloseArchive(m_handle);
-			m_handle = NULL;
+	void Archive::Close(bool force) {
+		if (m_owner || (!m_owner && force)) {
+			if (m_handle) {
+				StormCloseArchive(m_handle);
+			}
 		}
+
+		m_handle = NULL;
 	}
 
 	std::string Archive::GetArchiveName() {

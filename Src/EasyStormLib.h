@@ -12,7 +12,7 @@ namespace Storm {
 		void Open(std::string name, DWORD priority = 13, DWORD flags = 0);
 		void Connect(HANDLE handle);
 
-		void Close();
+		void Close(bool force = false);
 		std::string GetArchiveName();
 		std::string GetArchiveName(std::string fileName);
 
