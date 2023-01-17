@@ -79,13 +79,9 @@ namespace Storm {
 			SIZE_T size = StormGetFileSize(_handle, &high);
 
 			SIZE_T readed; // Useless shit, cause we have checked file size
-			char* buffer = new char[size];
-			FillMemory(buffer, size, 0);
-			StormReadFile(_handle, buffer, size, &readed, 0);
+			filedata.resize(size);
+			StormReadFile(_handle, (char*)filedata.data(), size, &readed, 0);
 			StormCloseFile(_handle);
-
-			filedata.append(buffer, size);
-			delete[] buffer;
 		}
 
 		return filedata;
